@@ -4,6 +4,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBookMonitor", "OrderBo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBookMonitor.Client", "OrderBookMonitor\OrderBookMonitor.Client\OrderBookMonitor.Client.csproj", "{AD39796F-2F98-4600-A2EA-5BEA6AE0BE7B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBookMonitor.Domain", "OrderBookMonitor.Domain\OrderBookMonitor.Domain.csproj", "{25CB9E5A-1D0D-4F0C-92FB-DA3EF2597CFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBookMonitor.Application", "OrderBookMonitor.Application\OrderBookMonitor.Application.csproj", "{C12FD860-B11B-4963-BF78-04EDD520B005}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBookMonitor.Infrastructure", "OrderBookMonitor.Infrastructure\OrderBookMonitor.Infrastructure.csproj", "{4FD7A218-A79F-4CA2-910F-D06673C7D81D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +24,17 @@ Global
 		{AD39796F-2F98-4600-A2EA-5BEA6AE0BE7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD39796F-2F98-4600-A2EA-5BEA6AE0BE7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD39796F-2F98-4600-A2EA-5BEA6AE0BE7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25CB9E5A-1D0D-4F0C-92FB-DA3EF2597CFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25CB9E5A-1D0D-4F0C-92FB-DA3EF2597CFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25CB9E5A-1D0D-4F0C-92FB-DA3EF2597CFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25CB9E5A-1D0D-4F0C-92FB-DA3EF2597CFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C12FD860-B11B-4963-BF78-04EDD520B005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C12FD860-B11B-4963-BF78-04EDD520B005}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C12FD860-B11B-4963-BF78-04EDD520B005}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C12FD860-B11B-4963-BF78-04EDD520B005}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FD7A218-A79F-4CA2-910F-D06673C7D81D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FD7A218-A79F-4CA2-910F-D06673C7D81D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FD7A218-A79F-4CA2-910F-D06673C7D81D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FD7A218-A79F-4CA2-910F-D06673C7D81D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
