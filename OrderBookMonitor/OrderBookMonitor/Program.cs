@@ -1,4 +1,8 @@
+using Microsoft.AspNetCore.WebSockets;
+using OrderBookMonitor.Application.OrderBook;
 using OrderBookMonitor.Components;
+using OrderBookMonitor.Modules.OrderBook.Bitstamp.Services;
+using OrderBookMonitor.Modules.OrderBook.HostedServices;
 
 namespace OrderBookMonitor;
 
@@ -17,6 +21,10 @@ public class Program
             configure.KeepAliveInterval = TimeSpan.FromSeconds(5);
             configure.AllowedOrigins.Add("wss://ws.bitstamp.net");
         });
+        builder.Services.AddSignalR();
+        
+        builder.Services.AddSingleton<IOrderBookStreamingService, BitstampOrderBookStreamingService>();
+        builder.Services.AddHostedService<OrderBookStreamingBackgroundService>();
 
 
         
