@@ -1,4 +1,3 @@
-using OrderBookMonitor.Client.Pages;
 using OrderBookMonitor.Components;
 
 namespace OrderBookMonitor;
@@ -8,12 +7,19 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-
-        // Add services to the container.
+        
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents()
             .AddInteractiveWebAssemblyComponents();
 
+        builder.Services.AddWebSockets(configure => 
+        {
+            configure.KeepAliveInterval = TimeSpan.FromSeconds(5);
+            configure.AllowedOrigins.Add("wss://ws.bitstamp.net");
+        });
+
+
+        
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -29,6 +35,7 @@ public class Program
         }
 
         app.UseHttpsRedirection();
+        app.UseWebSockets();
 
         app.UseStaticFiles();
         app.UseAntiforgery();
