@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBookMonitor", "OrderBookMonitor\OrderBookMonitor\OrderBookMonitor.csproj", "{832C2B81-E5DF-4918-82A2-78C52C549B0D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBookMonitor", "OrderBookMonitor\OrderBookMonitor.csproj", "{832C2B81-E5DF-4918-82A2-78C52C549B0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBookMonitor.Client", "OrderBookMonitor\OrderBookMonitor.Client\OrderBookMonitor.Client.csproj", "{AD39796F-2F98-4600-A2EA-5BEA6AE0BE7B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBookMonitor.Client", "OrderBookMonitor.Client\OrderBookMonitor.Client.csproj", "{AD39796F-2F98-4600-A2EA-5BEA6AE0BE7B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBookMonitor.Domain", "OrderBookMonitor.Domain\OrderBookMonitor.Domain.csproj", "{25CB9E5A-1D0D-4F0C-92FB-DA3EF2597CFF}"
 EndProject
