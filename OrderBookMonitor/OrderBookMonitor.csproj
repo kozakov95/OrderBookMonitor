@@ -8,7 +8,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\OrderBookMonitor.Application\OrderBookMonitor.Application.csproj" />
-        <ProjectReference Include="..\OrderBookMonitor.Client\OrderBookMonitor.Client.csproj"/>
         <PackageReference Include="CSharpFunctionalExtensions" Version="3.5.1" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.8"/>
     </ItemGroup>
