@@ -3,6 +3,7 @@ using OrderBookMonitor.Application.OrderBook;
 using OrderBookMonitor.Components;
 using OrderBookMonitor.Modules.OrderBook.Bitstamp.Services;
 using OrderBookMonitor.Modules.OrderBook.HostedServices;
+using OrderBookMonitor.Modules.OrderBook.Messaging.State;
 
 namespace OrderBookMonitor;
 
@@ -11,18 +12,20 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        
+
         builder.Services.AddRazorComponents()
-            .AddInteractiveServerComponents()
-            .AddInteractiveWebAssemblyComponents();
+            .AddInteractiveServerComponents();
+        
+        builder.Services.AddServerSideBlazor();
+
+        builder.Services.AddRazorPages();
 
         builder.Services.AddWebSockets(configure => 
         {
             configure.KeepAliveInterval = TimeSpan.FromSeconds(5);
-            configure.AllowedOrigins.Add("wss://ws.bitstamp.net");
         });
-        builder.Services.AddSignalR();
-        
+
+        builder.Services.AddSingleton<OrderBookStateContainer>();
         builder.Services.AddSingleton<IOrderBookStreamingService, BitstampOrderBookStreamingService>();
         builder.Services.AddHostedService<OrderBookStreamingBackgroundService>();
 
@@ -42,16 +45,19 @@ public class Program
             app.UseHsts();
         }
 
+        
         app.UseHttpsRedirection();
-        app.UseWebSockets();
-
+        
         app.UseStaticFiles();
+        
+        app.UseRouting();
+        
         app.UseAntiforgery();
-
+        
+        app.UseWebSockets();
+        
         app.MapRazorComponents<App>()
-            .AddInteractiveServerRenderMode()
-            .AddInteractiveWebAssemblyRenderMode()
-            .AddAdditionalAssemblies(typeof(Client._Imports).Assembly);
+            .AddInteractiveServerRenderMode();
 
         app.Run();
     }

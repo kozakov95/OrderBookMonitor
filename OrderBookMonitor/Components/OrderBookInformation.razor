@@ -1,0 +1,53 @@
+@page "/order-book-information"
+@using OrderBookMonitor.Modules.OrderBook.Messaging.State
+@rendermode InteractiveServer
+
+<PageTitle>Order Book Information</PageTitle>
+
+<h1>OrderBookInformation</h1>
+
+@if (_stateContainer.Data?.DataModel?.Asks is null)
+{
+    <p>Loading data</p>
+}
+else
+{
+<table>
+    <thead>
+    <tr>
+        <th>Bids</th>
+        <th>Asks</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for (var i = 0; i < _stateContainer.Data.DataModel.Asks.Count; i++)
+    {
+        <tr>
+            <td>@_stateContainer.Data.DataModel.Bids[i].Amount BTC @@ @_stateContainer.Data.DataModel.Bids[i].Price EUR</td>
+            <td>@_stateContainer.Data.DataModel.Asks[i].Amount BTC @@ @_stateContainer.Data.DataModel.Asks[i].Price EUR</td>
+        </tr>
+    }
+    </tbody>
+</table>
+}
+
+
+
+@code {
+    
+    [Inject] 
+    OrderBookStateContainer _stateContainer { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _stateContainer.OnChange += async () =>
+        {
+            await InvokeAsync(StateHasChanged);
+        };
+    }
+    
+    public async ValueTask DisposeAsync()
+    {
+        _stateContainer.OnChange -= StateHasChanged;
+    }
+}

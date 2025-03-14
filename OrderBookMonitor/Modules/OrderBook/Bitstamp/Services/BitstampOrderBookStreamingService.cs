@@ -8,6 +8,8 @@ using OrderBookMonitor.Modules.OrderBook.Bitstamp.Constants;
 using OrderBookMonitor.Modules.OrderBook.Bitstamp.JsonConverters;
 using OrderBookMonitor.Modules.OrderBook.Messaging.Hubs;
 using OrderBookMonitor.Modules.OrderBook.Bitstamp.Models;
+using OrderBookMonitor.Modules.OrderBook.CommonModels;
+using OrderBookMonitor.Modules.OrderBook.Messaging.State;
 
 namespace OrderBookMonitor.Modules.OrderBook.Bitstamp.Services;
 
@@ -28,6 +30,8 @@ public class BitstampOrderBookStreamingService : IOrderBookStreamingService
     private ClientWebSocket? _webSocket;
     
     private static JsonSerializerOptions _jsonOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.KebabCaseLower };
+
+    private readonly OrderBookStateContainer _stateContainer;
     
     //Saw this buffer size of 4735 in the Bitstamp example page for order book
     //In the example page -> network -> WS area
@@ -35,9 +39,10 @@ public class BitstampOrderBookStreamingService : IOrderBookStreamingService
     //Yet, the size is unstable, it tends to grow a bit from time to time
     private static byte[] _buffer = new byte[4735 * 2];
 
-    public BitstampOrderBookStreamingService(IHubContext<OrderBookHub> hubContext)
+    public BitstampOrderBookStreamingService(IHubContext<OrderBookHub> hubContext, OrderBookStateContainer stateContainer)
     {
         _hubContext = hubContext;
+        _stateContainer = stateContainer;
     }
 
     public async Task StartStreamingAsync(CancellationToken cancellationToken)
@@ -75,7 +80,7 @@ public class BitstampOrderBookStreamingService : IOrderBookStreamingService
     private async Task SendMessagesToClients(ReadOnlyMemory<byte> memory, CancellationToken cancellationToken)
     {
         var messageObject = JsonSerializer.Deserialize<OrderBookModel>(memory.Span);
-        await _hubContext.Clients.All.SendAsync("ReceiveOrderBookUpdate", messageObject, cancellationToken);
+        _stateContainer.Data = messageObject;
     }
 
     private async Task OpenConnectionAsync(CancellationToken cancellationToken)
