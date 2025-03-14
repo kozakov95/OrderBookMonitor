@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using OrderBookMonitor.Modules.OrderBook.Bitstamp.JsonConverters;
 
-namespace OrderBookMonitor.Modules.OrderBook.Bitstamp.Models;
+namespace OrderBookMonitor.Modules.OrderBook.CommonModels;
 
 [JsonConverter(typeof(OrderBookEntryModelConverter))]
 public class OrderBookEntryModel
