@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using OrderBookMonitor.Modules.OrderBook.CommonModels;
 
 namespace OrderBookMonitor.Infrastructure.Modules.OrderBook.Bitstamp.Models;
 

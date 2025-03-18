@@ -1,8 +1,8 @@
 using CSharpFunctionalExtensions;
 using MediatR;
-using OrderBookMonitor.Application.OrderBook.Models;
+using OrderBookMonitor.Application.Modules.OrderBook.Models;
 
-namespace OrderBookMonitor.Application.OrderBook.Queries.CalculateDepthOfMarket;
+namespace OrderBookMonitor.Application.Modules.OrderBook.Queries.CalculateDepthOfMarket;
 
 public class CalculateDepthOfMarketQueryHandler : IRequestHandler<CalculateDepthOfMarketQuery, Result<DepthOfMarketModel>>
 {
@@ -19,6 +19,7 @@ public class CalculateDepthOfMarketQueryHandler : IRequestHandler<CalculateDepth
 
         return new DepthOfMarketModel
         {
+            Timestamp = request.OrderBook.Timestamp,
             Price = calculatedPrice,
             Asks = domAsks,
             Bids = domBids,

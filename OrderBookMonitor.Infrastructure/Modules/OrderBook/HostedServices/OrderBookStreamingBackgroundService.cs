@@ -2,14 +2,15 @@
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
-using OrderBookMonitor.Application.OrderBook.Models;
-using OrderBookMonitor.Application.OrderBook.Queries.CalculateDepthOfMarket;
+using OrderBookMonitor.Application.Modules.OrderBook.Models;
+using OrderBookMonitor.Application.Modules.OrderBook.Queries.CalculateDepthOfMarket;
 using OrderBookMonitor.Common.Modules.OrderBook.Constants;
 using OrderBookMonitor.Common.Modules.OrderBook.DTO;
 using OrderBookMonitor.Infrastructure.Modules.OrderBook.Bitstamp.Models;
 using OrderBookMonitor.Infrastructure.Modules.OrderBook.Bitstamp.Services;
+using OrderBookMonitor.Infrastructure.Modules.OrderBook.Logging.Models;
 using OrderBookMonitor.Infrastructure.Modules.OrderBook.Messaging.Hubs;
-using OrderBookMonitor.Modules.OrderBook.CommonModels;
+using Serilog;
 
 namespace OrderBookMonitor.Infrastructure.Modules.OrderBook.HostedServices;
 
@@ -49,7 +50,9 @@ public class OrderBookStreamingBackgroundService: BackgroundService
     {
         var applicationModel = _mapper.Map<OrderBookModel>(orderBookModel.DataPollingModel);
         var domCalculatedResult = await _mediator.Send(new CalculateDepthOfMarketQuery(applicationModel));
-        
+
+        var orderBookLogEntry = _mapper.Map<OrderBookLogEntry>(domCalculatedResult.Value);
+        Log.Information("Processing order book data: {@orderBookLogEntry}", orderBookLogEntry);
         var objectToSend = _mapper.Map<DepthOfMarketDto>(domCalculatedResult.Value);
         await _hubContext.Clients.All.SendAsync(SignalRMethodConstants.OrderBookStreaming, objectToSend);
     }

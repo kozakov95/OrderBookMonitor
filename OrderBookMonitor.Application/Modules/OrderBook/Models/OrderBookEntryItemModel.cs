@@ -1,4 +1,4 @@
-namespace OrderBookMonitor.Application.OrderBook.Models;
+namespace OrderBookMonitor.Application.Modules.OrderBook.Models;
 
 public class OrderBookEntryItemModel
 {
