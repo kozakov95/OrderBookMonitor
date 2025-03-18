@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBookMonitor.Applicatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBookMonitor.Infrastructure", "OrderBookMonitor.Infrastructure\OrderBookMonitor.Infrastructure.csproj", "{4FD7A218-A79F-4CA2-910F-D06673C7D81D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderBookMonitor.Common", "OrderBookMonitor.Common\OrderBookMonitor.Common.csproj", "{B08C4E66-C4AB-4D32-B0AC-AB116BF75F7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{4FD7A218-A79F-4CA2-910F-D06673C7D81D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FD7A218-A79F-4CA2-910F-D06673C7D81D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FD7A218-A79F-4CA2-910F-D06673C7D81D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B08C4E66-C4AB-4D32-B0AC-AB116BF75F7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B08C4E66-C4AB-4D32-B0AC-AB116BF75F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B08C4E66-C4AB-4D32-B0AC-AB116BF75F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B08C4E66-C4AB-4D32-B0AC-AB116BF75F7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

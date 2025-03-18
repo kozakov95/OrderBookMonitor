@@ -1,6 +1,6 @@
-﻿using OrderBookMonitor.Modules.OrderBook.Bitstamp.Models;
+﻿using OrderBookMonitor.Infrastructure.Modules.OrderBook.Bitstamp.Models;
 
-namespace OrderBookMonitor.Modules.OrderBook.Bitstamp.Constants;
+namespace OrderBookMonitor.Infrastructure.Modules.OrderBook.Bitstamp.Constants;
 
 public static class WebSocketMessages
 {

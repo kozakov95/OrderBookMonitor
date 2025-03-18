@@ -2,16 +2,12 @@
 using System.Text;
 using System.Text.Json;
 using CSharpFunctionalExtensions;
-using Microsoft.AspNetCore.SignalR;
-using OrderBookMonitor.Application.OrderBook;
-using OrderBookMonitor.Modules.OrderBook.Bitstamp.Constants;
-using OrderBookMonitor.Modules.OrderBook.Bitstamp.JsonConverters;
-using OrderBookMonitor.Modules.OrderBook.Messaging.Hubs;
-using OrderBookMonitor.Modules.OrderBook.Bitstamp.Models;
+using OrderBookMonitor.Infrastructure.Modules.OrderBook.Bitstamp.Constants;
+using OrderBookMonitor.Infrastructure.Modules.OrderBook.Bitstamp.Models;
 using OrderBookMonitor.Modules.OrderBook.CommonModels;
-using OrderBookMonitor.Modules.OrderBook.Messaging.State;
 
-namespace OrderBookMonitor.Modules.OrderBook.Bitstamp.Services;
+
+namespace OrderBookMonitor.Infrastructure.Modules.OrderBook.Bitstamp.Services;
 
 public class BitstampOrderBookStreamingService : IOrderBookStreamingService
 {
@@ -25,13 +21,9 @@ public class BitstampOrderBookStreamingService : IOrderBookStreamingService
     
     private static readonly Uri _baseUri = new("wss://ws.bitstamp.net");
     
-    private readonly IHubContext<OrderBookHub> _hubContext;
-    
     private ClientWebSocket? _webSocket;
     
     private static JsonSerializerOptions _jsonOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.KebabCaseLower };
-
-    private readonly OrderBookStateContainer _stateContainer;
     
     //Saw this buffer size of 4735 in the Bitstamp example page for order book
     //In the example page -> network -> WS area
@@ -39,10 +31,9 @@ public class BitstampOrderBookStreamingService : IOrderBookStreamingService
     //Yet, the size is unstable, it tends to grow a bit from time to time
     private static byte[] _buffer = new byte[4735 * 2];
 
-    public BitstampOrderBookStreamingService(IHubContext<OrderBookHub> hubContext, OrderBookStateContainer stateContainer)
+    public BitstampOrderBookStreamingService()
     {
-        _hubContext = hubContext;
-        _stateContainer = stateContainer;
+
     }
 
     public async Task StartStreamingAsync(CancellationToken cancellationToken)
@@ -77,10 +68,12 @@ public class BitstampOrderBookStreamingService : IOrderBookStreamingService
         await CloseConnection(cancellationToken);
     }
 
+    public event Func<OrderBookPollingModel, Task>? OnDataReceived;
+
     private async Task SendMessagesToClients(ReadOnlyMemory<byte> memory, CancellationToken cancellationToken)
     {
-        var messageObject = JsonSerializer.Deserialize<OrderBookModel>(memory.Span);
-        _stateContainer.Data = messageObject;
+        var messageObject = JsonSerializer.Deserialize<OrderBookPollingModel>(memory.Span);
+        await OnDataReceived?.Invoke(messageObject);
     }
 
     private async Task OpenConnectionAsync(CancellationToken cancellationToken)
