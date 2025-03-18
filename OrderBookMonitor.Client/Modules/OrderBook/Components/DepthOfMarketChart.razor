@@ -1,0 +1,107 @@
+@rendermode InteractiveWebAssembly
+
+<h3>Order Book Chart (Bids vs Asks)</h3>
+
+<BarChart TItem="double" @ref="orderBookChart" />
+
+@code {
+
+    [Parameter] 
+    public DepthOfMarketDto DepthOfMarket { get; set; }
+    
+    private BarChart<double> orderBookChart = new BarChart<double>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var bidsDataset = new BarChartDataset<double>
+            {
+                Label = "Bid amount",
+                Data = new List<double>(),
+                BackgroundColor = "rgba(0, 200, 0, 1)",
+                BorderColor = "rgba(0, 200, 0, 1)",
+                BorderWidth = 5,
+            };
+
+            var asksDataset = new BarChartDataset<double>
+            {
+                Label = "Ask amount",
+                Data = new List<double>(),
+                BackgroundColor = "rgba(255, 0, 0, 1)",
+                BorderColor = "rgba(255, 0, 0, 1)",
+                BorderWidth = 5,
+            };
+
+            await orderBookChart.AddLabelsDatasetsAndUpdate(new Collection<object>(), bidsDataset, asksDataset);
+
+            await orderBookChart.SetOptions(new BarChartOptions
+            {
+                Plugins = new ChartPlugins
+                {
+                    Legend = new ChartLegend
+                    {
+                        Display = true
+                    }
+                },
+            });
+
+            await orderBookChart.Update();
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await UpdateChart();
+    }
+
+    protected async Task UpdateChart()
+    {
+        if (DepthOfMarket != null && orderBookChart.Data != null)
+        {
+            var updatedPriceLabels = new List<object>();
+            var updatedBidsData = new List<double>();
+            var updatedAsksData = new List<double>();
+            
+            foreach (var bid in DepthOfMarket.Bids)
+            {
+                updatedPriceLabels.Add(bid.Price.ToString("F2"));
+                updatedBidsData.Add(Convert.ToDouble(bid.Amount));
+                updatedAsksData.Add(0);
+            }
+            
+            updatedPriceLabels.Add("");
+            updatedBidsData.Add(0); 
+            updatedAsksData.Add(0); 
+            
+            foreach (var ask in DepthOfMarket.Asks)
+            {
+                updatedPriceLabels.Add(ask.Price.ToString("F2"));
+                updatedAsksData.Add(Convert.ToDouble(ask.Amount));
+                updatedBidsData.Add(0);
+            }
+            
+            orderBookChart.Data.Labels = updatedPriceLabels;
+            
+            if (orderBookChart.Data.Datasets.Count > 0)
+            {
+                if (orderBookChart.Data.Datasets[0] is BarChartDataset<double> bidsDataset)
+                {
+                    bidsDataset.Data = updatedBidsData;
+                }
+            }
+            
+            if (orderBookChart.Data.Datasets.Count > 1)
+            {
+                if (orderBookChart.Data.Datasets[1] is BarChartDataset<double> asksDataset)
+                {
+                    asksDataset.Data = updatedAsksData;
+                }
+            }
+            
+            Console.WriteLine("Chart successfully re-rendered");
+            
+            await orderBookChart.Update();
+        }
+    }
+}

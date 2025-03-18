@@ -1,0 +1,46 @@
+@page "/"
+@using OrderBookMonitor.Client.Modules.OrderBook.Components
+@inject NavigationManager Navigation;
+@inject IJSRuntime JSRuntime;
+
+
+@rendermode InteractiveWebAssembly
+
+<PageTitle>Order Book Information</PageTitle>
+
+@if (_depthOfMarketDto is null)
+{
+    <p>Loading data</p>
+}
+else
+{
+    <DepthOfMarketChart DepthOfMarket="@_depthOfMarketDto"></DepthOfMarketChart>
+    <PurchaseQuoteCalculator Price="@_depthOfMarketDto.Price"></PurchaseQuoteCalculator>
+}
+
+@code {
+    
+    private HubConnection _hubConnection;
+    private DepthOfMarketDto? _depthOfMarketDto;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri(SignalRMethodConstants.OrderBookStreaming))
+            .Build();
+        
+        _hubConnection.On<DepthOfMarketDto>(SignalRMethodConstants.OrderBookStreaming, async (entry) =>
+        {
+            await InvokeAsync(() =>
+            {
+                if (entry != null)
+                {
+                    _depthOfMarketDto = entry;
+                    StateHasChanged();
+                }
+            });
+        });
+        
+        await _hubConnection.StartAsync();
+    }
+}

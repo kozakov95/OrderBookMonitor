@@ -1,4 +1,3 @@
-using ApexCharts;
 using Microsoft.AspNetCore.WebSockets;
 using OrderBookMonitor.Application;
 using OrderBookMonitor.Common.Modules.OrderBook.Constants;
@@ -20,7 +19,6 @@ public class Program
             .AddInteractiveWebAssemblyComponents();
         
         builder.Services.AddServerSideBlazor();
-        builder.Services.AddApexCharts();
 
         builder.Services.AddRazorPages();
 
