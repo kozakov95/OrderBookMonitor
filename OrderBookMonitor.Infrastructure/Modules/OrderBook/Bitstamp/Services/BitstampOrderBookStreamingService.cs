@@ -4,7 +4,6 @@ using System.Text.Json;
 using CSharpFunctionalExtensions;
 using OrderBookMonitor.Infrastructure.Modules.OrderBook.Bitstamp.Constants;
 using OrderBookMonitor.Infrastructure.Modules.OrderBook.Bitstamp.Models;
-using OrderBookMonitor.Modules.OrderBook.CommonModels;
 
 
 namespace OrderBookMonitor.Infrastructure.Modules.OrderBook.Bitstamp.Services;

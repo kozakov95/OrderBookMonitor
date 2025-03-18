@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace OrderBookMonitor.Modules.OrderBook.CommonModels;
+namespace OrderBookMonitor.Infrastructure.Modules.OrderBook.Bitstamp.Models;
 
 public class OrderBookDataPollingModel
 {

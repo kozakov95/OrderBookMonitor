@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using OrderBookMonitor.Modules.OrderBook.CommonModels;
+using OrderBookMonitor.Infrastructure.Modules.OrderBook.Bitstamp.Models;
 
 namespace OrderBookMonitor.Infrastructure.Modules.OrderBook.Bitstamp.JsonConverters;
 
