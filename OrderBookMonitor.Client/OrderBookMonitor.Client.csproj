@@ -9,7 +9,17 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Blazorise" Version="1.7.5" />
+        <PackageReference Include="Blazorise.Bootstrap" Version="1.7.5" />
+        <PackageReference Include="Blazorise.Charts" Version="1.7.5" />
+        <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.7.5" />
+        <PackageReference Include="LiveChartsCore.SkiaSharpView.Blazor" Version="2.0.0-rc5.4" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.8"/>
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\OrderBookMonitor.Common\OrderBookMonitor.Common.csproj" />
     </ItemGroup>
 
 </Project>
