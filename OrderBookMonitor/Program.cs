@@ -2,8 +2,7 @@ using Microsoft.AspNetCore.WebSockets;
 using OrderBookMonitor.Application;
 using OrderBookMonitor.Common.Modules.OrderBook.Constants;
 using OrderBookMonitor.Components;
-using OrderBookMonitor.Infrastructure.Modules.OrderBook.Bitstamp.Services;
-using OrderBookMonitor.Infrastructure.Modules.OrderBook.HostedServices;
+using OrderBookMonitor.Infrastructure;
 using OrderBookMonitor.Infrastructure.Modules.OrderBook.Messaging.Hubs;
 
 namespace OrderBookMonitor;
@@ -27,12 +26,8 @@ public class Program
             configure.KeepAliveInterval = TimeSpan.FromSeconds(5);
         });
 
-        builder.Services.AddSingleton<IOrderBookStreamingService, BitstampOrderBookStreamingService>();
-        builder.Services.AddHostedService<OrderBookStreamingBackgroundService>();
-        builder.Services.AddAutoMapper(
-            typeof(OrderBookMonitor.Infrastructure.Modules.OrderBook.Mapping.OrderBookProfile).Assembly);
-
         builder.Services.RegisterApplicationServices();
+        builder.Services.RegisterInfrastructureServices();
 
         
         var app = builder.Build();
