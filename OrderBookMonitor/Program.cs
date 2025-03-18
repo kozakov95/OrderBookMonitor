@@ -1,9 +1,11 @@
+using ApexCharts;
 using Microsoft.AspNetCore.WebSockets;
-using OrderBookMonitor.Application.OrderBook;
+using OrderBookMonitor.Application;
+using OrderBookMonitor.Common.Modules.OrderBook.Constants;
 using OrderBookMonitor.Components;
-using OrderBookMonitor.Modules.OrderBook.Bitstamp.Services;
-using OrderBookMonitor.Modules.OrderBook.HostedServices;
-using OrderBookMonitor.Modules.OrderBook.Messaging.State;
+using OrderBookMonitor.Infrastructure.Modules.OrderBook.Bitstamp.Services;
+using OrderBookMonitor.Infrastructure.Modules.OrderBook.HostedServices;
+using OrderBookMonitor.Infrastructure.Modules.OrderBook.Messaging.Hubs;
 
 namespace OrderBookMonitor;
 
@@ -14,9 +16,11 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddRazorComponents()
-            .AddInteractiveServerComponents();
+            .AddInteractiveServerComponents()
+            .AddInteractiveWebAssemblyComponents();
         
         builder.Services.AddServerSideBlazor();
+        builder.Services.AddApexCharts();
 
         builder.Services.AddRazorPages();
 
@@ -25,10 +29,12 @@ public class Program
             configure.KeepAliveInterval = TimeSpan.FromSeconds(5);
         });
 
-        builder.Services.AddSingleton<OrderBookStateContainer>();
         builder.Services.AddSingleton<IOrderBookStreamingService, BitstampOrderBookStreamingService>();
         builder.Services.AddHostedService<OrderBookStreamingBackgroundService>();
+        builder.Services.AddAutoMapper(
+            typeof(OrderBookMonitor.Infrastructure.Modules.OrderBook.Mapping.OrderBookProfile).Assembly);
 
+        builder.Services.RegisterApplicationServices();
 
         
         var app = builder.Build();
@@ -57,7 +63,11 @@ public class Program
         app.UseWebSockets();
         
         app.MapRazorComponents<App>()
-            .AddInteractiveServerRenderMode();
+            .AddInteractiveServerRenderMode()
+            .AddInteractiveWebAssemblyRenderMode()
+            .AddAdditionalAssemblies(typeof(Client._Imports).Assembly);
+
+        app.MapHub<OrderBookHub>(SignalRMethodConstants.OrderBookStreaming);
 
         app.Run();
     }
